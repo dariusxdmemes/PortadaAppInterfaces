@@ -51,11 +51,11 @@ fun PantallaNewPlayer(modifier: Modifier = Modifier, navController: NavHostContr
 }
 @Composable
 fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHostController) {
-
+ // Funcion de la vista retrato
 }
 
 
 @Composable
 fun Orientacion_HorizontalNP(modifier: Modifier = Modifier, navController: NavHostController) {
-
+// Funcion vista landscape
 }
