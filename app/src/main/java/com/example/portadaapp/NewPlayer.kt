@@ -3,13 +3,16 @@ package com.example.portadaapp
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Paint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,12 +22,19 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
@@ -51,7 +61,38 @@ fun PantallaNewPlayer(modifier: Modifier = Modifier, navController: NavHostContr
 }
 @Composable
 fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHostController) {
- // Funcion de la vista retrato
+ Column(
+     horizontalAlignment = Alignment.CenterHorizontally,
+     verticalArrangement = Arrangement.Center,
+     modifier = modifier
+         .fillMaxSize()
+         .background(Color.Magenta)
+ ) {
+     Row(
+         modifier = Modifier
+             .fillMaxWidth(1f)
+     ) {
+         Image(
+             painter = painterResource(id = R.drawable.account),
+             contentDescription = "imagen_cuenta",
+             modifier = Modifier
+                 .size(50.dp)
+         )
+
+         var estadoTextField by remember {
+             mutableStateOf(" ")
+         }
+
+         TextField(
+             value = estadoTextField,
+             onValueChange = {
+                 estadoTextField = it
+             }, label = {
+                 Text(text = "Nombre")
+             }
+         )
+     }
+ }
 }
 
 

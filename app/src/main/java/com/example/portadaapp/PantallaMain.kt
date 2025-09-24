@@ -54,15 +54,15 @@ import androidx.navigation.NavHostController
     fun Orientacion_Vertical(modifier: Modifier, navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentHeight()
+                .background(Color.Magenta)
         ) {
             Text(
                 text = "Main",
                 fontSize = 50.sp,
-                color = Color.Magenta
+                color = Color.Black
             )
 
             Spacer(modifier = Modifier
@@ -92,7 +92,8 @@ import androidx.navigation.NavHostController
     fun Orientacion_Horizontal(modifier: Modifier, navController: NavHostController) {
         Column(
             modifier = modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(Color.Magenta),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -116,14 +117,14 @@ import androidx.navigation.NavHostController
                 Button(
                     onClick = {},
                     modifier = Modifier
-                        .weight(1f),
+                        .weight(2f),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) { Text(text = "Play") }
 
                 Button(
                     onClick = {navController.navigate("PantallaNewPlayer")},
                     modifier = Modifier
-                        .weight(1f),
+                        .weight(2f),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) { Text(text = "New Player") }
             }
@@ -139,14 +140,14 @@ import androidx.navigation.NavHostController
                     onClick = {},
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(2f)
                 ) { Text(text = "Preferences") }
 
                 Button(
                     onClick = {},
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(2f)
                 ) { Text(text = "About") }
             }
         }
