@@ -1,7 +1,11 @@
 package com.example.portadaapp
 
+import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Paint
+import android.widget.Button
+import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,47 +31,57 @@ import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 
 @Composable
-    fun PantallaMain(modifier: Modifier = Modifier) {
+    fun PantallaMain(modifier: Modifier = Modifier, navController: NavHostController) {
 
     when (LocalConfiguration.current.orientation) {
         ORIENTATION_LANDSCAPE -> {
-            Orientacion_Horizontal(modifier)
+            Orientacion_Horizontal(modifier, navController)
+        } ORIENTATION_PORTRAIT -> {
+        Orientacion_Vertical(modifier, navController)
         } else -> {
-            Orientacion_Vertical(modifier)
+            Orientacion_Vertical(modifier, navController)
         }
     }
 }
     @Composable
-    fun Orientacion_Vertical(modifier: Modifier = Modifier) {
+    fun Orientacion_Vertical(modifier: Modifier, navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(-10.dp),
-            modifier = Modifier.fillMaxSize()
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier
+                .fillMaxSize()
                 .wrapContentHeight()
         ) {
             Text(
-                text = "Rentify",
+                text = "Main",
                 fontSize = 50.sp,
-                modifier = modifier,
                 color = Color.Magenta
             )
 
-            Spacer(modifier = Modifier.size(50.dp))
+            Spacer(modifier = Modifier
+                .size(50.dp))
 
-            val botones = listOf("Play", "New Player", "Preferences", "About")
-            for (i in botones) {
+            val botones = mapOf("Play" to "Play",
+                "New Player" to "PantallaNewPlayer",
+                "Preferences" to "Preferences",
+                "About" to "About")
+
+            botones.forEach { (nombre, ruta) ->
                 Button(
-                    onClick = {},
+                    onClick = { navController.navigate(ruta) },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                    modifier = modifier
+                    modifier = Modifier
                         .width(200.dp)
-                        .size(60.dp)
+                        .height(60.dp)
                 ) {
-                    Text(text = i)
+                    Text(text = nombre)
                 }
             }
         }
@@ -74,54 +89,65 @@ import androidx.compose.ui.unit.sp
 
 
     @Composable
-    fun Orientacion_Horizontal(modifier: Modifier = Modifier) {
+    fun Orientacion_Horizontal(modifier: Modifier, navController: NavHostController) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(-10.dp),
-            modifier = modifier.fillMaxSize()
-                .wrapContentHeight(),
+            modifier = modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Rentify",
+                text = "Main",
                 fontSize = 50.sp,
-                modifier = modifier,
-                color = Color.Magenta
+                modifier = Modifier
+                    .fillMaxWidth(),
+                color = Color.Magenta,
+                textAlign = TextAlign.Center
             )
 
-            //Spacer(modifier = Modifier.size(10.dp))
+            Spacer(modifier = Modifier
+                .size(50.dp))
 
-            Row {
-                val botonesIzquierda = listOf("Play", "New Player")
-                for (i in botonesIzquierda) {
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                        modifier = modifier
-                            .width(200.dp)
-                            .height(60.dp)
-                            //.size(50.dp)
-                    ) {
-                        Text(text = i)
-                    }
-                    Spacer(Modifier.size(50.dp))
-                }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .weight(1f),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                ) { Text(text = "Play") }
+
+                Button(
+                    onClick = {navController.navigate("PantallaNewPlayer")},
+                    modifier = Modifier
+                        .weight(1f),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                ) { Text(text = "New Player") }
             }
 
-            Row {
-                val botonesDerecha = listOf("Preferences", "About")
-                for (i in botonesDerecha) {
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                        modifier = modifier
-                            .width(200.dp)
-                            .height(60.dp)
-                            //.size(100.dp)
-                    ) {
-                        Text(text = i)
-                    }
-                    Spacer(Modifier.size(50.dp))
-                }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                    modifier = Modifier
+                        .weight(1f)
+                ) { Text(text = "Preferences") }
+
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                    modifier = Modifier
+                        .weight(1f)
+                ) { Text(text = "About") }
             }
         }
     }
