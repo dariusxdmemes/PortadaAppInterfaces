@@ -192,7 +192,6 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                      style = MaterialTheme.typography.bodySmall,
                      color = Color.Red
                  )
-
              }
          }
      }
