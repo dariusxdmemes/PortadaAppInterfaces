@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -27,12 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-
 @Composable
 fun PantallaNewPlayer(modifier: Modifier = Modifier, navController: NavHostController) {
-
     when (LocalConfiguration.current.orientation) {
         ORIENTATION_LANDSCAPE -> {
             Orientacion_VerticalNP(modifier, navController)
@@ -49,6 +49,44 @@ fun PantallaNewPlayer(modifier: Modifier = Modifier, navController: NavHostContr
 }
 @Composable
 fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHostController) {
+
+    // VARIABLES DE MANEJO DE ESTADO DE CAMPOS DE TEXTO:
+
+    var estadoTextFieldNombre by remember {
+        mutableStateOf(" ")
+    }
+    var errorTfNombre by remember {
+        mutableStateOf(false)
+    }
+
+    var estadoTextFieldApellidos by remember {
+        mutableStateOf(" ")
+    }
+    var errorTfApellidos by remember {
+        mutableStateOf(false)
+    }
+
+    var estadoTextFieldNick by remember {
+        mutableStateOf(" ")
+    }
+    var errorTfNick by remember {
+        mutableStateOf(false)
+    }
+
+    var estadoTextFieldCamara by remember {
+        mutableStateOf(" ")
+    }
+    var errorTfTelefono by remember {
+        mutableStateOf(false)
+    }
+
+    var estadoTextFieldEmail by remember {
+        mutableStateOf(" ")
+    }
+    var errorTfEmail by remember {
+        mutableStateOf(false)
+    }
+
  Column(
      horizontalAlignment = Alignment.CenterHorizontally,
      verticalArrangement = Arrangement.Center,
@@ -70,18 +108,24 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                  .size(50.dp)
          )
 
-         var estadoTextFieldNombre by remember {
-             mutableStateOf(" ")
-         }
+         Column {
+             TextField(
+                 value = estadoTextFieldNombre,
+                 onValueChange = {
+                     estadoTextFieldNombre = it
+                 }, label = {
+                     Text(text = "Nombre")
+                 }
+             )
 
-         TextField(
-             value = estadoTextFieldNombre,
-             onValueChange = {
-                 estadoTextFieldNombre = it
-             }, label = {
-                 Text(text = "Nombre")
+             if (errorTfNombre) {
+                 Text(
+                     text = "Error, campo obligatorio!",
+                     style = MaterialTheme.typography.bodySmall,
+                     color = Color.Red
+                 )
              }
-         )
+         }
 
      }
 
@@ -100,18 +144,23 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                  .size(50.dp)
          )
 
-         var estadoTextFieldApellidos by remember {
-             mutableStateOf(" ")
-         }
-
-         TextField(
-             value = estadoTextFieldApellidos,
-             onValueChange = {
-                 estadoTextFieldApellidos = it
-             }, label = {
-                 Text(text = "Apellidos")
+         Column {
+             TextField(
+                 value = estadoTextFieldApellidos,
+                 onValueChange = {
+                     estadoTextFieldApellidos = it
+                 }, label = {
+                     Text(text = "Apellidos")
+                 }
+             )
+             if (errorTfApellidos) {
+                 Text(
+                     text = "Error, campo obligatorio!",
+                     style = MaterialTheme.typography.bodySmall,
+                     color = Color.Red
+                 )
              }
-         )
+         }
      }
 
      Spacer(
@@ -128,18 +177,24 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                  .size(50.dp)
          )
 
-         var estadoTextFieldNick by remember {
-             mutableStateOf(" ")
-         }
+         Column {
+             TextField(
+                 value = estadoTextFieldNick,
+                 onValueChange = {
+                     estadoTextFieldNick = it
+                 }, label = {
+                     Text(text = "Nickname")
+                 }
+             )
+             if (errorTfNick) {
+                 Text(
+                     text = "Error, campo obligatorio!",
+                     style = MaterialTheme.typography.bodySmall,
+                     color = Color.Red
+                 )
 
-         TextField(
-             value = estadoTextFieldNick,
-             onValueChange = {
-                 estadoTextFieldNick = it
-             }, label = {
-                 Text(text = "Nickname")
              }
-         )
+         }
      }
 
      Spacer(
@@ -187,18 +242,23 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                  .size(50.dp)
          )
 
-         var estadoTextFieldCamara by remember {
-             mutableStateOf(" ")
-         }
-
-         TextField(
-             value = estadoTextFieldCamara,
-             onValueChange = {
-                 estadoTextFieldCamara = it
-             }, label = {
-                 Text(text = "Teléfono")
+         Column {
+             TextField(
+                 value = estadoTextFieldCamara,
+                 onValueChange = {
+                     estadoTextFieldCamara = it
+                 }, label = {
+                     Text(text = "Teléfono")
+                 }
+             )
+             if (errorTfTelefono) {
+                 Text(
+                     text = "Error, campo obligatorio!",
+                     style = MaterialTheme.typography.bodySmall,
+                     color = Color.Red
+                 )
              }
-         )
+         }
      }
 
      Spacer(
@@ -216,18 +276,23 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                  .size(50.dp)
          )
 
-         var estadoTextFieldEmail by remember {
-             mutableStateOf(" ")
-         }
-
-         TextField(
-             value = estadoTextFieldEmail,
-             onValueChange = {
-                 estadoTextFieldEmail = it
-             }, label = {
-                 Text(text = "Email")
+         Column {
+             TextField(
+                 value = estadoTextFieldEmail,
+                 onValueChange = {
+                     estadoTextFieldEmail = it
+                 }, label = {
+                     Text(text = "Email")
+                 }
+             )
+             if (errorTfEmail) {
+                 Text(
+                     text = "Error, campo obligatorio!",
+                     style = MaterialTheme.typography.bodySmall,
+                     color = Color.Red
+                 )
              }
-         )
+         }
      }
 
      Spacer(
@@ -242,16 +307,16 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
              .fillMaxWidth(1f)
      ) {
          Button(
-             onClick = {}
+             onClick = {
+                 errorTfNombre = estadoTextFieldNombre.isBlank()
+                 errorTfApellidos = estadoTextFieldApellidos.isBlank()
+                 errorTfNick = estadoTextFieldNick.isBlank()
+                 errorTfTelefono = estadoTextFieldCamara.isBlank()
+                 errorTfEmail = estadoTextFieldEmail.isBlank()
+             }
          ) {
              Text(text = "New player")
          }
      }
  }
-}
-
-
-@Composable
-fun Orientacion_HorizontalNP(modifier: Modifier = Modifier, navController: NavHostController) {
-// Funcion vista landscape
 }
