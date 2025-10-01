@@ -43,7 +43,11 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-                        composable("PantallaPreferences") {
+                        composable("PantallaOpciones") {
+                            PantallaOpciones(
+                                modifier = Modifier.fillMaxSize(),
+                                navController = navController
+                            )
                         }
                     }
                 }
