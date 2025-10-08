@@ -1,12 +1,16 @@
 package com.example.portadaapp
 
+import android.content.Context
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.drawable.Icon
 import android.media.Rating
 import android.transition.Slide
 import android.widget.Toast
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,15 +20,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,28 +60,32 @@ import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlin.contracts.contract
 import kotlin.math.ceil
 import kotlin.math.floor
 
 @Composable
 fun PantallaOpciones(modifier: Modifier = Modifier, navController: NavHostController) {
+
+    val scrollState = rememberScrollState()
+
     when (LocalConfiguration.current.orientation) {
         ORIENTATION_LANDSCAPE -> {
-            Orientacion_VerticalPO(modifier, navController)
+            Orientacion_VerticalPO(modifier, navController, scrollState)
         }
 
         ORIENTATION_PORTRAIT -> {
-            Orientacion_VerticalPO(modifier, navController)
+            Orientacion_VerticalPO(modifier, navController, scrollState)
         }
 
         else -> {
-            Orientacion_VerticalPO(modifier, navController)
+            Orientacion_VerticalPO(modifier, navController, scrollState)
         }
     }
 }
 
 @Composable
-fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController) {
+fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController, scrollState: ScrollState) {
 
     // VARIABLES DE CONTROL DE ESTADO DE RADIO BUTTONS
 
@@ -92,6 +105,7 @@ fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController)
         mutableIntStateOf(0)
     }
 
+
     val context = LocalContext.current
 
     Box(
@@ -102,6 +116,7 @@ fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .verticalScroll(scrollState)
         ) {
             Text(
                 modifier = Modifier
@@ -127,6 +142,22 @@ fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController)
                             newRating -> ratingState = newRating
                     }
                 )
+            }
+
+            Column(modifier = Modifier
+                .padding(top = 15.dp)) {
+                Text(
+                    text = "Plataformas:"
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    val botonesChip = listOf("PS4", "XBOX", "3DS", "WII", "WIIu")
+                    for (boton in botonesChip) {
+                        FilterChipConsolas(boton, context)
+                    }
+
+                }
             }
 
         }
@@ -216,4 +247,36 @@ fun RatingBar(
             )
         }
     }
+}
+
+@Composable
+fun FilterChipConsolas(nombreChip: String, context: Context) {
+    var selected by remember {
+        mutableStateOf(false)
+    }
+
+    FilterChip(
+        onClick = {
+            selected = !selected
+                  if (selected) {
+                      Toast.makeText(context, "Has seleccionado $nombreChip", Toast.LENGTH_SHORT).show()
+                  }
+                  },
+        label = {
+            Text(
+                text = nombreChip
+            )
+        },
+        selected = selected,
+        leadingIcon = if (selected) {
+            {
+                Icon(imageVector = Icons.Filled.Done,
+                    contentDescription = "Done icon",
+                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+                )
+            }
+        } else {
+            null
+        },
+    )
 }
