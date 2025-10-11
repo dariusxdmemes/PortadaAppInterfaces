@@ -45,6 +45,12 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
+                        composable("PantallaPlay") {
+                            PantallaPlay(
+                                modifier = Modifier.fillMaxSize(),
+                                navController = navController
+                            )
+                        }
                     }
                 }
             }

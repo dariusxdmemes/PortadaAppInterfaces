@@ -56,7 +56,7 @@ import androidx.navigation.NavHostController
             Spacer(modifier = Modifier
                 .size(50.dp))
 
-            val botones = mapOf("Play" to "Play",
+            val botones = mapOf("Play" to "PantallaPlay",
                 "New Player" to "PantallaNewPlayer",
                 "Preferences" to "PantallaOpciones",
                 "About" to "About")

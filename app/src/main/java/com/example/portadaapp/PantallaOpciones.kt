@@ -105,6 +105,10 @@ fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController,
         mutableIntStateOf(0)
     }
 
+    var plataformaSeleccionada by remember {
+        mutableStateOf<String?>(null)
+    }
+
 
     val context = LocalContext.current
 
@@ -154,7 +158,11 @@ fun Orientacion_VerticalPO(modifier: Modifier, navController: NavHostController,
                 ) {
                     val botonesChip = listOf("PS4", "XBOX", "3DS", "WII", "WIIu")
                     for (boton in botonesChip) {
-                        FilterChipConsolas(boton, context)
+                        FilterChipConsolas(boton,
+                            plataformaSeleccionada == boton,
+                            onChipSelected = { plataformaSeleccionada = boton },
+                            context
+                        )
                     }
 
                 }
@@ -250,15 +258,20 @@ fun RatingBar(
 }
 
 @Composable
-fun FilterChipConsolas(nombreChip: String, context: Context) {
+fun FilterChipConsolas(
+    nombreChip: String,
+    isSelected: Boolean,
+    onChipSelected: () -> Unit,
+    context: Context
+) {
     var selected by remember {
         mutableStateOf(false)
     }
 
     FilterChip(
         onClick = {
-            selected = !selected
-                  if (selected) {
+                  if (!selected) {
+                      onChipSelected()
                       Toast.makeText(context, "Has seleccionado $nombreChip", Toast.LENGTH_SHORT).show()
                   }
                   },
@@ -267,8 +280,8 @@ fun FilterChipConsolas(nombreChip: String, context: Context) {
                 text = nombreChip
             )
         },
-        selected = selected,
-        leadingIcon = if (selected) {
+        selected = isSelected,
+        leadingIcon = if (isSelected) {
             {
                 Icon(imageVector = Icons.Filled.Done,
                     contentDescription = "Done icon",
