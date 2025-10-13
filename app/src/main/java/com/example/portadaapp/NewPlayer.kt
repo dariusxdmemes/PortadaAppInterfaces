@@ -4,20 +4,27 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +37,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import kotlin.math.exp
+
 @Composable
 fun PantallaNewPlayer(modifier: Modifier = Modifier, navController: NavHostController) {
     when (LocalConfiguration.current.orientation) {
@@ -274,15 +283,16 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                  .size(50.dp)
          )
 
-         Column {
-             TextField(
-                 value = estadoTextFieldEmail,
-                 onValueChange = {
-                     estadoTextFieldEmail = it
-                 }, label = {
-                     Text(text = "Email")
-                 }
-             )
+         //Column {
+//             TextField(
+//                 value = estadoTextFieldEmail,
+//                 onValueChange = {
+//                     estadoTextFieldEmail = it
+//                 }, label = {
+//                     Text(text = "Email")
+//                 }
+//             )
+             MyDropDownMenu()
              if (errorTfEmail) {
                  Text(
                      text = "Error, campo obligatorio!",
@@ -290,7 +300,7 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
                      color = Color.Red
                  )
              }
-         }
+         //}
      }
 
      Spacer(
@@ -317,4 +327,43 @@ fun Orientacion_VerticalNP(modifier: Modifier = Modifier, navController: NavHost
          }
      }
  }
+}
+
+@Composable
+fun MyDropDownMenu() {
+    var selectedText by remember { mutableStateOf("") }
+
+    var expanded by remember { mutableStateOf(false) }
+
+    var opcionesEmail = listOf(
+        "dartig@edu.gva.es",
+        "pabmordel@gva.es",
+        "guicamher@alu.edu.gva.es"
+    )
+
+    Column {
+        TextField(
+            value = selectedText,
+            onValueChange = {
+                selectedText = it
+            },
+            enabled = false,
+            readOnly = true,
+            modifier = Modifier
+                .clickable { expanded = true },
+            label = { Text("Email") }
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            opcionesEmail.forEach { email ->
+                DropdownMenuItem(
+                    text = { Text(text = email) },
+                    onClick = { selectedText = email
+                    expanded = false}
+                )
+            }
+        }
+    }
 }

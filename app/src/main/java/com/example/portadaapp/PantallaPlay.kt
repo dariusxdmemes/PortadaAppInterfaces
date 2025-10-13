@@ -45,6 +45,21 @@ data class Juego(
 @Composable
 fun PantallaPlay(modifier: Modifier, navController: NavHostController) {
 
+    var juegosSeleccioandos by remember {
+        mutableStateOf(listOf(
+            Juego("Angry birds", R.drawable.games_angrybirds, "imagen_angrybirds"),
+            Juego("Dragon Fly", R.drawable.games_dragonfly, "imagen_dragonfly"),
+            Juego("Hill Climbing Racing", R.drawable.games_hillclimbingracing, "imagen_hillclimbing"),
+            Juego("Radiant Defense", R.drawable.games_radiantdefense, "imagen_radiantdef"),
+            Juego("Pocket Soccer", R.drawable.games_pocketsoccer, "imagen_soccer"),
+            Juego("Ninja Jump", R.drawable.games_ninjump, "imagen_ninjump"),
+            Juego("Air Control", R.drawable.games_aircontrol, "imagen_aircontrol")
+        ).associateWith {
+            false
+        }
+        )
+    }
+
     val context = LocalContext.current
 
     Box(
@@ -55,16 +70,35 @@ fun PantallaPlay(modifier: Modifier, navController: NavHostController) {
         Column(
             modifier = Modifier
         ) {
-            crearFilasBotones()
+            crearFilasBotones(
+                juegosSeleccioandos = juegosSeleccioandos,
+                onCheckedChange = { juego, isChecked ->
+                    juegosSeleccioandos = juegosSeleccioandos.toMutableMap().apply {
+                        this[juego] = isChecked
+                    }
+                }
+            )
         }
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 16.dp,
-                    bottom = 16.dp),
+                .padding(
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
             onClick = {
-                Toast.makeText(context,"Has seleccionado",
-                    Toast.LENGTH_LONG).show()
+                val elegidos = juegosSeleccioandos.filter { it.value }.keys
+                val nombres = elegidos.joinToString(", ") { it.nombreJuego }
+
+                Toast.makeText(
+                    context,
+                    if (nombres.isEmpty()) {
+                        "No se ha seleccionado nada!"
+                    } else {
+                        "Has seleccionado $nombres"
+                    },
+                    Toast.LENGTH_SHORT
+                ).show()
             },
             containerColor = Color.Yellow
         ) {
@@ -74,29 +108,25 @@ fun PantallaPlay(modifier: Modifier, navController: NavHostController) {
 }
 
 @Composable
-fun crearFilasBotones() {
-    val juego = listOf(
-        Juego("Angry birds", R.drawable.games_angrybirds, "imagen_angrybirds"),
-        Juego("Dragon Fly", R.drawable.games_dragonfly, "imagen_dragonfly"),
-        Juego("Hill Climbing Racing", R.drawable.games_hillclimbingracing, "imagen_hillclimbing"),
-        Juego("Radiant Defense", R.drawable.games_radiantdefense, "imagen_radiantdef"),
-        Juego("Pocket Soccer", R.drawable.games_pocketsoccer, "imagen_soccer"),
-        Juego("Ninja Jump", R.drawable.games_ninjump, "imagen_ninjump"),
-        Juego("Air Control", R.drawable.games_aircontrol, "imagen_aircontrol")
-    )
-
+fun crearFilasBotones(
+    juegosSeleccioandos: Map<Juego, Boolean>,
+                      onCheckedChange: (Juego, Boolean) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        juego.forEach { juego ->
+        juegosSeleccioandos.forEach { (juego, checked) ->
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CrearImagenes(juego.rutaImagenJuego, juego.descripcionImagen)
-                CheckBoxMinimal(juego.nombreJuego)
+                CheckBoxMinimal(juego.nombreJuego,
+                    checked = checked,
+                    onCheckedChange = { onCheckedChange(juego, it) }
+                )
             }
             Spacer(
                 modifier = Modifier
@@ -109,17 +139,17 @@ fun crearFilasBotones() {
 }
 
 @Composable
-fun CheckBoxMinimal(nombreCheckbox: String) {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-
+fun CheckBoxMinimal(
+    nombreCheckbox: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+    ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         ) {
         Checkbox(
             checked = checked,
-            onCheckedChange = { checked = it }
+            onCheckedChange = onCheckedChange
         )
         Text(
             text = nombreCheckbox

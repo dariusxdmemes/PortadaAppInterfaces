@@ -1,5 +1,6 @@
 package com.example.portadaapp
 
+import PantallaSplash
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "PantallaMain",
+                        startDestination = "PantallaSplash",
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("PantallaMain") {
@@ -47,6 +48,18 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("PantallaPlay") {
                             PantallaPlay(
+                                modifier = Modifier.fillMaxSize(),
+                                navController = navController
+                            )
+                        }
+                        composable("PantallaSplash") {
+                            PantallaSplash(
+                                modifier = Modifier.fillMaxSize(),
+                                navController = navController
+                            )
+                        }
+                        composable("PantallaAbout") {
+                            PantallaAbout(
                                 modifier = Modifier.fillMaxSize(),
                                 navController = navController
                             )
