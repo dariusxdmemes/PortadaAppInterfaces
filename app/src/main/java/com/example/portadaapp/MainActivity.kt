@@ -58,12 +58,12 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-//                        composable("PantallaAbout") {
-//                            PantallaAbout(
-//                                modifier = Modifier.fillMaxSize(),
-//                                navController = navController
-//                            )
-//                        }
+                        composable("PantallaAbout") {
+                            PantallaAbout(
+                                modifier = Modifier.fillMaxSize(),
+                                navController = navController
+                            )
+                        }
                     }
                 }
             }

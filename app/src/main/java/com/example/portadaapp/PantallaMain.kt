@@ -59,7 +59,7 @@ import androidx.navigation.NavHostController
             val botones = mapOf("Play" to "PantallaPlay",
                 "New Player" to "PantallaNewPlayer",
                 "Preferences" to "PantallaOpciones",
-                "About" to "About")
+                "About" to "PantallaAbout")
 
             botones.forEach { (nombre, ruta) ->
                 Button(
